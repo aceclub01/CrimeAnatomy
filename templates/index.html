@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Crime Awareness</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <!-- Overall Barometer at the top right -->
+        <div class="barometer">
+            <div class="barometer-labels">
+                <span class="left-label">Under Review</span>
+                <span class="center-label">Warning</span>
+                <span class="right-label">Danger</span>
+            </div>
+            <div class="barometer-meter">
+                <div class="meter-fill" id="overall-barometer-fill"></div>
+            </div>
+            <div class="barometer-count" id="overall-checked-count">0 / 0</div>
+        </div>
+
+        <!-- Slide container -->
+        <div class="slide-container">
+            {% for slide in slides %}
+                <div class="slide">
+                    <h2 class="slide-title">{{ slide.title }}</h2>
+
+                    <!-- Collapsible Body Section -->
+                    <div class="body-section">
+                        <button class="collapse-btn">Show/Hide Content</button>
+                        <ul class="content-list">
+                            {% for item in slide.content %}
+                                <li>
+                                    <input type="checkbox" class="statement-checkbox segment-checkbox">
+                                    {{ item }}
+                                </li>
+                            {% endfor %}
+                        </ul>
+
+                        <!-- Individual Barometer for Each Section -->
+                        <div class="segment-barometer">
+                            <div class="barometer-labels">
+                                <span>Under Review</span>
+                                <span>Warning</span>
+                                <span>Danger</span>
+                            </div>
+                            <div class="barometer-meter">
+                                <div class="meter-fill segment-barometer-fill"></div>
+                            </div>
+                            <div class="barometer-count segment-checked-count">0 / 0</div>
+                        </div>
+                    </div>
+
+                    <!-- Collapsible Images Section -->
+                    <div class="image-section">
+                        <button class="collapse-btn">Show/Hide Images</button>
+                        <div class="image-list">
+                            {% for i in range(1, 4) %}
+                                <img src="{{ url_for('static', filename='images/slide_' + loop.index|string + '_image' + i|string + '.jpg') }}" alt="Image {{ i }}" class="slide-image">
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
