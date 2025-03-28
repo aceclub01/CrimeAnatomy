@@ -1,9 +1,48 @@
 import os
 from flask import Flask, render_template
+from flask import Markup  # Add to top of file
 
 app = Flask(__name__)
 
+from flask import Markup  # Add to top of file
+
 def load_introduction(scam_type):
+    """Load and properly format introduction content"""
+    filename = f"slides_{scam_type}.txt"
+    try:
+        with open(filename, 'r', encoding='utf-8') as file:
+            content = file.read().strip()
+            
+            # First convert to proper paragraphs
+            paragraphs = [p.strip() for p in content.split('\n\n') if p.strip()]
+            
+            # Then apply highlighting to each paragraph
+            highlighted_paras = []
+            keywords = ['scam', 'fraud', 'warning', 'danger', 'risk', 'emergency', 
+                       'financial', 'exploit', 'vulnerability']
+            
+            for para in paragraphs:
+                # Process bullet points and lists
+                if para.startswith(('1.', '2.', '3.', '- ', '✓ ', '• ')):
+                    lines = para.split('\n')
+                    processed_lines = []
+                    for line in lines:
+                        for kw in keywords:
+                            if kw in line.lower():
+                                line = line.replace(kw, f'<span class="highlight">{kw}</span>')
+                        processed_lines.append(f"<li>{line[2:] if line[:2] in ('1.', '2.', '3.', '- ', '✓ ', '• ') else line}</li>")
+                    highlighted_paras.append(f"<ul>{''.join(processed_lines)}</ul>")
+                else:
+                    # Process regular paragraphs
+                    for kw in keywords:
+                        if kw in para.lower():
+                            para = para.replace(kw, f'<span class="highlight">{kw}</span>')
+                    highlighted_paras.append(f"<p>{para}</p>")
+            
+            return Markup('\n'.join(highlighted_paras))
+            
+    except Exception as e:
+        return Markup(f"<p class='error'>Introduction loading error: {str(e)}</p>")
     """Load and format introduction with paragraphs and highlights"""
     filename = f"slides_{scam_type}.txt"
     try:

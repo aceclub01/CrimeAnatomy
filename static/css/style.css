@@ -237,3 +237,33 @@ body {
     margin-bottom: 1em;
     line-height: 1.6;
 }
+/* Add to style.css */
+.highlight {
+    background-color: #FFEB3B;
+    padding: 0 2px;
+    border-radius: 3px;
+    font-weight: bold;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+}
+
+.intro-content {
+    line-height: 1.7;
+}
+
+.intro-content p {
+    margin-bottom: 1.2em;
+}
+
+.intro-content ul, .intro-content ol {
+    margin: 1em 0;
+    padding-left: 1.5em;
+}
+
+.intro-content li {
+    margin-bottom: 0.5em;
+}
+
+.error {
+    color: #F44336;
+    font-weight: bold;
+}
