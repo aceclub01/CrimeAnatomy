@@ -1,123 +1,135 @@
 /* Base Styles */
 body {
-    font-family: 'Segoe UI', sans-serif;
-    line-height: 1.6;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    line-height: 1.5;
     margin: 0;
     padding: 0;
     color: #333;
 }
 
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-/* Mobile-First Styles */
-.slide {
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    margin-bottom: 25px;
-    padding: 20px;
-    overflow: hidden;
-}
-
-.barometer {
-    background: #f5f5f5;
+    max-width: 100%;
     padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 20px;
 }
 
+/* Barometer Styles */
+.barometer-track {
+    height: 20px;
+    background: #f0f0f0;
+    border-radius: 10px;
+    margin: 10px 0;
+    overflow: hidden;
+    width: 100%;
+}
+
+.barometer-fill {
+    height: 100%;
+    width: 0%;
+    background: #4CAF50; /* Default green */
+    transition: all 0.4s ease-out;
+}
+
+.barometer-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.barometer-value {
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.risk-label {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Risk Level Colors */
+.risk-low { color: #4CAF50; }
+.risk-medium { color: #FFC107; }
+.risk-high { color: #F44336; }
+
+/* Overall Barometer */
+.overall-barometer {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #eee;
+}
+
+.overall-barometer h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+/* Section Barometer */
+.section-barometer {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px dashed #ddd;
+}
+
+/* Mobile-Specific Styles */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+    
+    .barometer-track {
+        height: 16px;
+    }
+    
+    .risk-label, .barometer-value {
+        font-size: 0.8rem;
+    }
+    
+    .overall-barometer {
+        padding: 12px;
+    }
+}
+
+/* Checkbox Styles */
 .content-item {
     display: flex;
     align-items: center;
-    margin: 10px 0;
+    margin: 12px 0;
+    padding: 10px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
 .statement-checkbox {
-    min-width: 24px;
-    min-height: 24px;
+    min-width: 22px;
+    min-height: 22px;
     margin-right: 12px;
+    accent-color: #4285f4;
 }
 
-.image-gallery {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 15px;
-    margin-top: 15px;
+.content-label {
+    flex: 1;
+    word-break: break-word;
 }
 
+/* Collapse Button */
 .collapse-btn {
-    background: #4CAF50;
+    background: #4285f4;
     color: white;
     border: none;
-    padding: 12px 20px;
-    margin: 10px 0;
-    border-radius: 6px;
+    padding: 12px 15px;
     width: 100%;
+    border-radius: 8px;
     font-size: 1rem;
+    margin: 5px 0 10px;
     cursor: pointer;
     transition: all 0.3s;
 }
 
-/* Mobile-Specific Elements */
-.mobile-only {
-    display: none;
-}
-
-#quick-exit {
-    position: fixed;
-    bottom: 25px;
-    right: 25px;
-    background: red;
-    color: white;
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    font-size: 1.5rem;
-    z-index: 1000;
-    border: none;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-}
-
-/* Tablet and Desktop Styles */
-@media (min-width: 768px) {
-    .container {
-        padding: 30px;
-    }
-    
-    .image-gallery {
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    }
-    
-    .collapse-btn {
-        width: auto;
-        padding: 10px 15px;
-    }
-    
-    .content-item {
-        margin: 8px 0;
-    }
-}
-
-/* Accessibility Focus States */
-button:focus, input:focus {
-    outline: 3px solid #4285f4;
-    outline-offset: 2px;
-}
-
-/* Performance Optimizations */
-img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 6px;
-    will-change: transform;
-}
-
-/* Touch Feedback */
-.tap-active {
-    transform: scale(0.96);
-    opacity: 0.9;
+.collapse-btn:active {
+    transform: scale(0.98);
 }

@@ -3,35 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#4285f4">
     <title>Cyber Crime Awareness</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
 </head>
 <body>
     <div class="container">
-        <!-- Quick Exit Button (Mobile Only) -->
-        <div class="mobile-only">
-            <button id="quick-exit" aria-label="Quick exit">X</button>
+        <!-- Overall Barometer -->
+        <div class="overall-barometer">
+            <h3>Overall Risk Assessment</h3>
+            <div class="barometer-track">
+                <div class="barometer-fill" id="overall-barometer-fill"></div>
+            </div>
+            <div class="barometer-info">
+                <span class="risk-label" id="overall-risk-label">Low Risk</span>
+                <span class="barometer-value" id="overall-value">0%</span>
+            </div>
         </div>
 
-        <!-- Barometer -->
-        <div class="barometer">
-            <div class="barometer-labels">
-                <span class="right-label">Danger: Call 1799</span>
-            </div>
-            <div class="barometer-meter">
-                <div class="meter-fill" id="overall-barometer-fill"></div>
-            </div>
-            <div class="barometer-count" id="overall-checked-count">0 / 0</div>
-        </div>
-
-        <!-- Slides -->
+        <!-- Slides Container -->
         <div class="slide-container">
             {% for slide in slides %}
             <div class="slide">
                 <h2 class="slide-title">{{ slide.title }}</h2>
-
+                
                 <!-- Content Section -->
                 <div class="content-section">
                     <button class="collapse-btn">Show/Hide Content</button>
@@ -40,46 +34,23 @@
                         <div class="content-item">
                             <input type="checkbox" class="statement-checkbox" id="cb-{{ loop.index }}">
                             <label for="cb-{{ loop.index }}" class="content-label">
-                                {% if item.startswith('🚩') %}
-                                <span class="red-flag">{{ item }}</span>
-                                {% elif item.startswith('"') and item.endswith('"') %}
-                                <span class="question">{{ item }}</span>
-                                {% else %}
-                                <span class="regular-text">{{ item }}</span>
-                                {% endif %}
+                                {{ item }}
                             </label>
                         </div>
                         {% endfor %}
                     </div>
-
+                    
                     <!-- Section Barometer -->
-                    <div class="segment-barometer">
-                        <div class="barometer-labels">
-                            <span>Under Review</span>
-                            <span>Warning</span>
-                            <span>Danger</span>
+                    <div class="section-barometer">
+                        <div class="barometer-track">
+                            <div class="barometer-fill" 
+                                 id="section-barometer-{{ loop.index }}"></div>
                         </div>
-                        <div class="barometer-meter">
-                            <div class="meter-fill segment-barometer-fill"></div>
+                        <div class="barometer-info">
+                            <span class="risk-label" id="section-risk-label-{{ loop.index }}">Low Risk</span>
+                            <span class="barometer-value" 
+                                  id="section-value-{{ loop.index }}">0%</span>
                         </div>
-                        <div class="barometer-count segment-checked-count">0 / 0</div>
-                    </div>
-                </div>
-
-                <!-- Image Gallery -->
-                <div class="image-section">
-                    <button class="collapse-btn">Show/Hide Images</button>
-                    <div class="image-gallery">
-                        {% for img in slide.images %}
-                        <div class="image-card">
-                            <picture>
-                                <source media="(max-width: 600px)" srcset="{{ url_for('static', filename=img.mobile) }}">
-                                <img src="{{ url_for('static', filename=img.desktop) }}" 
-                                     alt="{{ slide.title }} example"
-                                     loading="lazy">
-                            </picture>
-                        </div>
-                        {% endfor %}
                     </div>
                 </div>
             </div>
