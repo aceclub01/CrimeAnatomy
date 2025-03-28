@@ -11,9 +11,9 @@
         <!-- Overall Barometer at the top right -->
         <div class="barometer">
             <div class="barometer-labels">
-                <span class="left-label">Under Review</span>
-                <span class="center-label">Warning</span>
-                <span class="right-label">Danger</span>
+                <!-- <span class="left-label">Under Review</span>
+                <span class="center-label">Warning</span> -->
+                <span class="right-label">Danger: Call 1799</span>
             </div>
             <div class="barometer-meter">
                 <div class="meter-fill" id="overall-barometer-fill"></div>
@@ -24,45 +24,33 @@
         <!-- Slide container -->
         <div class="slide-container">
             {% for slide in slides %}
-                <div class="slide">
-                    <h2 class="slide-title">{{ slide.title }}</h2>
-
-                    <!-- Collapsible Body Section -->
-                    <div class="body-section">
-                        <button class="collapse-btn">Show/Hide Content</button>
-                        <ul class="content-list">
-                            {% for item in slide.content %}
-                                <li>
-                                    <input type="checkbox" class="statement-checkbox segment-checkbox">
-                                    {{ item }}
-                                </li>
-                            {% endfor %}
-                        </ul>
-
-                        <!-- Individual Barometer for Each Section -->
-                        <div class="segment-barometer">
-                            <div class="barometer-labels">
-                                <span>Under Review</span>
-                                <span>Warning</span>
-                                <span>Danger</span>
-                            </div>
-                            <div class="barometer-meter">
-                                <div class="meter-fill segment-barometer-fill"></div>
-                            </div>
-                            <div class="barometer-count segment-checked-count">0 / 0</div>
+            <div class="slide">
+                <h2>{{ slide.title }}</h2>
+                
+                <div class="body-section">
+                    <ul class="content-list">
+                        {% for item in slide.content %}
+                        <li>
+                            <input type="checkbox" class="statement-checkbox">
+                            {{ item }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+        
+                <div class="image-section">
+                    <button class="collapse-btn">Show/Hide {{ slide.title.split(':')[0] }} Examples</button>
+                    <div class="image-grid">
+                        {% for img in ['tactic1', 'tactic2', 'tactic3'] %}
+                        <div class="image-card">
+                            <img src="{{ url_for('static', filename='images/' + slide.image_group + '/' + img + '.jpg') }}"
+                                 onerror="this.style.display='none'">
+                            <p class="image-caption">{{ slide.title.split(':')[0] }} Tactic {{ loop.index }}</p>
                         </div>
-                    </div>
-
-                    <!-- Collapsible Images Section -->
-                    <div class="image-section">
-                        <button class="collapse-btn">Show/Hide Images</button>
-                        <div class="image-list">
-                            {% for i in range(1, 4) %}
-                                <img src="{{ url_for('static', filename='images/slide_' + loop.index|string + '_image' + i|string + '.jpg') }}" alt="Image {{ i }}" class="slide-image">
-                            {% endfor %}
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
+            </div>
             {% endfor %}
         </div>
     </div>
