@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="container">
-        <!-- Overall Barometer at the top right -->
+        <!-- Overall Barometer -->
         <div class="barometer">
             <div class="barometer-labels">
                 <span class="right-label">Danger: Call 1799</span>
@@ -19,34 +19,57 @@
             <div class="barometer-count" id="overall-checked-count">0 / 0</div>
         </div>
 
-        <!-- Slide container -->
+        <!-- Slide Container -->
         <div class="slide-container">
             {% for slide in slides %}
             <div class="slide">
-                <h2>{{ slide.title }}</h2>
-                
-                <div class="content">
-                    {% for item in slide.content %}
-                    <div class="content-line">
-                        {% if item.startswith('🚩') %}
-                        <div class="red-flag">{{ item }}</div>
-                        {% elif item.startswith('"') and item.endswith('"') %}
-                        <div class="question">{{ item }}</div>
-                        {% else %}
-                        <p>{{ item }}</p>
-                        {% endif %}
+                <h2 class="slide-title">{{ slide.title }}</h2>
+
+                <!-- Content Section with Checkboxes -->
+                <div class="content-section">
+                    <button class="collapse-btn">Show/Hide Content</button>
+                    <div class="content-list">
+                        {% for item in slide.content %}
+                        <div class="content-item">
+                            <input type="checkbox" class="statement-checkbox">
+                            {% if item.startswith('🚩') %}
+                            <span class="red-flag">{{ item }}</span>
+                            {% elif item.startswith('"') and item.endswith('"') %}
+                            <span class="question">{{ item }}</span>
+                            {% else %}
+                            <span class="regular-text">{{ item }}</span>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
+                    
+                    <!-- Individual Barometer -->
+                    <div class="segment-barometer">
+                        <div class="barometer-labels">
+                            <span>Under Review</span>
+                            <span>Warning</span>
+                            <span>Danger</span>
+                        </div>
+                        <div class="barometer-meter">
+                            <div class="meter-fill segment-barometer-fill"></div>
+                        </div>
+                        <div class="barometer-count segment-checked-count">0 / 0</div>
+                    </div>
                 </div>
-                
-                <div class="image-gallery">
-                    {% for img in slide.images %}
-                    <div class="image-card">
-                        <img src="{{ url_for('static', filename='images/' + img) }}" 
-                             alt="{{ slide.title }} illustration"
-                             onerror="this.parentElement.remove()">
+
+                <!-- Image Gallery Section -->
+                <div class="image-section">
+                    <button class="collapse-btn">Show/Hide Images</button>
+                    <div class="image-gallery">
+                        {% for img in slide.images %}
+                        <div class="image-card">
+                            <img src="{{ url_for('static', filename='images/' + img) }}" 
+                                 alt="{{ slide.title }} example"
+                                 class="slide-image"
+                                 onerror="this.style.display='none'">
+                        </div>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
                 </div>
             </div>
             {% endfor %}
@@ -54,5 +77,29 @@
     </div>
 
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    
+    <!-- JavaScript for interactive features -->
+    <script>
+        // Initialize checkboxes and barometers
+        document.addEventListener('DOMContentLoaded', function() {
+            // Collapse button functionality
+            document.querySelectorAll('.collapse-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const content = this.nextElementSibling;
+                    content.style.display = content.style.display === 'none' ? 'block' : 'none';
+                });
+            });
+            
+            // Checkbox and barometer logic
+            document.querySelectorAll('.statement-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', updateBarometers);
+            });
+            
+            function updateBarometers() {
+                // Your existing barometer update logic here
+                console.log("Updating barometers...");
+            }
+        });
+    </script>
 </body>
 </html>
