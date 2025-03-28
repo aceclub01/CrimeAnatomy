@@ -24,6 +24,47 @@ def parse_slides():
     
     try:
         with open('slides.txt', 'r', encoding='utf-8') as file:
+            for line in file:
+                line = line.strip()
+                
+                if not line:
+                    if current_slide:
+                        slides.append(current_slide)
+                        current_slide = None
+                    continue
+                
+                if line.lower().endswith('_scams'):
+                    if current_slide:
+                        slides.append(current_slide)
+                    current_slide = {
+                        'title': line.replace('_scams', ' Scams').title(),
+                        'content': [],
+                        'images': []  # Initialize images array
+                    }
+                elif line.startswith('[IMAGE:') and line.endswith(']'):
+                    if current_slide:
+                        img_name = line[7:-1].strip()  # Extract "loneliness.jpg"
+                        current_slide['images'].append(img_name)
+                elif current_slide:
+                    current_slide['content'].append(line)
+        
+        if current_slide:
+            slides.append(current_slide)
+            
+    except Exception as e:
+        print(f"Error: {str(e)}")
+        slides = [{
+            'title': 'Debug Slide',
+            'content': ['Sample content'],
+            'images': ['demo.jpg']
+        }]
+    
+    return slides
+    slides = []
+    current_slide = None
+    
+    try:
+        with open('slides.txt', 'r', encoding='utf-8') as file:
             lines = file.readlines()
             print(f"DEBUG: Read {len(lines)} lines from slides.txt")  # Debug output
             

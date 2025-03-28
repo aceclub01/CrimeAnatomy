@@ -27,35 +27,24 @@
 
                 <!-- Content Section with Checkboxes -->
                 <div class="content-section">
-                    <button class="collapse-btn">Show/Hide Content</button>
-                    <div class="content-list">
+                    <button class="collapse-btn" onclick="toggleSection(this)">Show/Hide Content</button>
+                    <div class="content-list" style="display:block">
                         {% for item in slide.content %}
                         <div class="content-item">
                             <input type="checkbox" class="statement-checkbox">
-                            {% if item.startswith('🚩') %}
-                            <span class="red-flag">{{ item }}</span>
-                            {% elif item.startswith('"') and item.endswith('"') %}
-                            <span class="question">{{ item }}</span>
-                            {% else %}
-                            <span class="regular-text">{{ item }}</span>
-                            {% endif %}
+                            {{ item }}
                         </div>
                         {% endfor %}
                     </div>
-                    
-                    <!-- Individual Barometer -->
-                    <div class="segment-barometer">
-                        <div class="barometer-labels">
-                            <span>Under Review</span>
-                            <span>Warning</span>
-                            <span>Danger</span>
-                        </div>
-                        <div class="barometer-meter">
-                            <div class="meter-fill segment-barometer-fill"></div>
-                        </div>
-                        <div class="barometer-count segment-checked-count">0 / 0</div>
-                    </div>
                 </div>
+                
+                <script>
+                function toggleSection(btn) {
+                    const content = btn.nextElementSibling;
+                    content.style.display = content.style.display === 'none' ? 'block' : 'none';
+                    btn.textContent = content.style.display === 'none' ? 'Show Content' : 'Hide Content';
+                }
+                </script>
 
                 <!-- Image Gallery Section -->
                 <div class="image-section">
