@@ -28,8 +28,8 @@
                 
                 <!-- Content Section -->
                 <div class="content-section">
-                    <button class="collapse-btn">Show/Hide Content</button>
-                    <div class="content-list">
+                    <button class="collapse-btn" data-target="content-{{ loop.index }}">Show/Hide Content</button>
+                    <div class="content-list" id="content-{{ loop.index }}">
                         {% for item in slide.content %}
                         <div class="content-item">
                             <input type="checkbox" class="statement-checkbox" id="cb-{{ loop.index }}">
@@ -43,14 +43,30 @@
                     <!-- Section Barometer -->
                     <div class="section-barometer">
                         <div class="barometer-track">
-                            <div class="barometer-fill" 
-                                 id="section-barometer-{{ loop.index }}"></div>
+                            <div class="barometer-fill" id="section-barometer-{{ loop.index }}"></div>
                         </div>
                         <div class="barometer-info">
                             <span class="risk-label" id="section-risk-label-{{ loop.index }}">Low Risk</span>
-                            <span class="barometer-value" 
-                                  id="section-value-{{ loop.index }}">0%</span>
+                            <span class="barometer-value" id="section-value-{{ loop.index }}">0%</span>
                         </div>
+                    </div>
+                </div>
+
+                <!-- Image Gallery -->
+                <div class="image-section">
+                    <button class="collapse-btn" data-target="gallery-{{ loop.index }}">Show/Hide Images</button>
+                    <div class="image-gallery" id="gallery-{{ loop.index }}">
+                        {% for img in slide.images %}
+                        <div class="image-card">
+                            <picture>
+                                <source media="(max-width: 600px)" 
+                                        srcset="{{ url_for('static', filename='images/mobile/' + img) }}">
+                                <img src="{{ url_for('static', filename='images/' + img) }}" 
+                                     alt="{{ slide.title }} example"
+                                     loading="lazy">
+                            </picture>
+                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
