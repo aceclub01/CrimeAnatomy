@@ -1,74 +1,67 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const checkboxes = document.querySelectorAll('.statement-checkbox');
-    const overallCheckedCountElement = document.getElementById('overall-checked-count');
-    const overallBarometerFill = document.getElementById('overall-barometer-fill');
-
-    const updateOverallBarometer = () => {
-        const totalCheckboxes = checkboxes.length;
-        const checkedCheckboxes = document.querySelectorAll('.statement-checkbox:checked').length;
-        
-        overallCheckedCountElement.textContent = `${checkedCheckboxes} / ${totalCheckboxes}`;
-        
-        const percentage = (checkedCheckboxes / totalCheckboxes) * 100;
-        overallBarometerFill.style.width = percentage + '%';
-
-        if (percentage < 33) {
-            overallBarometerFill.style.backgroundColor = "#4caf50"; // Green
-        } else if (percentage < 66) {
-            overallBarometerFill.style.backgroundColor = "#ffeb3b"; // Yellow
-        } else {
-            overallBarometerFill.style.backgroundColor = "#f44336"; // Red
-        }
+// Initialize mobile touch interactions
+document.addEventListener('DOMContentLoaded', function() {
+    // Touch feedback for buttons
+    const addTapFeedback = (element) => {
+        element.addEventListener('touchstart', () => {
+            element.classList.add('tap-active');
+        });
+        element.addEventListener('touchend', () => {
+            element.classList.remove('tap-active');
+        });
     };
 
-    checkboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', updateOverallBarometer);
-    });
-
-    updateOverallBarometer();
-
-    // Function to update individual segment barometers
-    const updateSegmentBarometer = (segment) => {
-        const segmentCheckboxes = segment.querySelectorAll('.segment-checkbox');
-        const segmentCheckedCount = segment.querySelectorAll('.segment-checkbox:checked').length;
-        const segmentBarometerCount = segment.querySelector('.segment-checked-count');
-        const segmentBarometerFill = segment.querySelector('.segment-barometer-fill');
-
-        segmentBarometerCount.textContent = `${segmentCheckedCount} / ${segmentCheckboxes.length}`;
-
-        const percentage = (segmentCheckedCount / segmentCheckboxes.length) * 100;
-        segmentBarometerFill.style.width = percentage + '%';
-
-        if (percentage < 33) {
-            segmentBarometerFill.style.backgroundColor = "#4caf50"; // Green
-        } else if (percentage < 66) {
-            segmentBarometerFill.style.backgroundColor = "#ffeb3b"; // Yellow
-        } else {
-            segmentBarometerFill.style.backgroundColor = "#f44336"; // Red
-        }
-    };
-
-    // Attach event listeners to segment checkboxes
-    document.querySelectorAll('.body-section').forEach(segment => {
-        const segmentCheckboxes = segment.querySelectorAll('.segment-checkbox');
-        segmentCheckboxes.forEach(checkbox => {
-            checkbox.addEventListener('change', () => updateSegmentBarometer(segment));
-        });
-
-        // Initial update for each segment
-        updateSegmentBarometer(segment);
-    });
-
-    // Collapse/Expand functionality
-    document.querySelectorAll('.collapse-btn').forEach(function(button) {
-        button.addEventListener('click', function() {
-            let content = this.nextElementSibling;
-
-            if (content.style.display === 'none' || content.style.display === '') {
-                content.style.display = 'block';
-            } else {
-                content.style.display = 'none';
-            }
+    // Collapse functionality
+    document.querySelectorAll('.collapse-btn').forEach(btn => {
+        addTapFeedback(btn);
+        btn.addEventListener('click', function() {
+            const content = this.nextElementSibling;
+            const isHidden = content.style.display === 'none';
+            content.style.display = isHidden ? 'block' : 'none';
+            this.textContent = isHidden ? 'Hide Content' : 'Show Content';
         });
     });
+
+    // Quick exit button
+    const quickExit = document.getElementById('quick-exit');
+    if (quickExit) {
+        addTapFeedback(quickExit);
+        quickExit.addEventListener('click', () => {
+            window.location.href = 'https://www.google.com';
+        });
+    }
+
+    // Checkbox and barometer logic
+    document.querySelectorAll('.statement-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            updateBarometer(this.closest('.slide'));
+        });
+    });
+
+    function updateBarometer(slide) {
+        const checked = slide.querySelectorAll('.statement-checkbox:checked').length;
+        const total = slide.querySelectorAll('.statement-checkbox').length;
+        const percentage = (checked / total) * 100;
+        
+        slide.querySelector('.segment-barometer-fill').style.width = `${percentage}%`;
+        slide.querySelector('.segment-checked-count').textContent = `${checked} / ${total}`;
+        
+        // Update main barometer
+        const allChecked = document.querySelectorAll('.statement-checkbox:checked').length;
+        const allTotal = document.querySelectorAll('.statement-checkbox').length;
+        document.getElementById('overall-barometer-fill').style.width = `${(allChecked/allTotal)*100}%`;
+        document.getElementById('overall-checked-count').textContent = `${allChecked} / ${allTotal}`;
+    }
 });
+
+// Service Worker Registration
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+            .then(registration => {
+                console.log('SW registered:', registration);
+            })
+            .catch(registrationError => {
+                console.log('SW registration failed:', registrationError);
+            });
+    });
+}
