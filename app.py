@@ -1,20 +1,22 @@
 import os
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template
 
 app = Flask(__name__)
 
-def get_file_path(filename):
-    """Get absolute path to file, checking multiple locations"""
-    paths_to_check = [
-        os.path.join(app.root_path, filename),  # Standard Flask location
-        os.path.join(os.getcwd(), filename),    # Current working directory
-        filename                                # Direct path
-    ]
-    for path in paths_to_check:
-        if os.path.exists(path):
-            print(f"Found file at: {path}")  # This will appear in Render logs
-            return path
-    return None
+def get_related_images(image_group):
+    """Find all images for a scam type"""
+    image_dir = os.path.join('static', 'images', image_group)
+    if not os.path.exists(image_dir):
+        return []
+    
+    images = []
+    for file in os.listdir(image_dir):
+        if file.lower().endswith(('.png', '.jpg', '.jpeg', '.webp')):
+            images.append({
+                'path': f'images/{image_group}/{file}',
+                'name': os.path.splitext(file)[0].replace('_', ' ').title()
+            })
+    return images
 
 def parse_slides():
     slides = []
@@ -25,52 +27,45 @@ def parse_slides():
             for line in file:
                 line = line.strip()
                 
-                # Skip empty lines unless they separate slides
                 if not line:
-                    if current_slide and current_slide['content']:  # Only add if has content
+                    if current_slide:
                         slides.append(current_slide)
                         current_slide = None
                     continue
                 
-                # Detect new section header
                 if line.lower().endswith('_scams'):
-                    if current_slide:  # Save previous slide if exists
+                    if current_slide:
                         slides.append(current_slide)
+                    image_group = line.lower()
                     current_slide = {
                         'title': line.replace('_scams', ' Scams').title(),
                         'content': [],
-                        'image_group': line.lower()
+                        'image_group': image_group,
+                        'images': get_related_images(image_group)  # Add images here
                     }
                 elif current_slide:
-                    # Add ALL content lines (not just special markers)
                     current_slide['content'].append(line)
         
-        # Add the last slide if it exists
-        if current_slide and current_slide['content']:
+        if current_slide:
             slides.append(current_slide)
             
     except Exception as e:
-        print(f"Error loading slides: {str(e)}")
+        print(f"Error: {str(e)}")
         slides = [{
-            'title': 'Debug: Sample Slide',
-            'content': [
-                'This is sample content line 1',
-                '🚩 This is a sample red flag',
-                '"This is a sample question?"',
-                'Regular content line without markers'
-            ],
-            'image_group': 'demo'
+            'title': 'Demo Slide',
+            'content': ['Sample content'],
+            'images': [{
+                'path': 'images/error.jpg',
+                'name': 'Demo Image'
+            }]
         }]
     
-    print("DEBUG - Parsed Slides:")
-    for i, slide in enumerate(slides):
-        print(f"Slide {i+1}: {slide['title']}")
-        for item in slide['content']:
-            print(f" - {item}")
-    
     return slides
+
 @app.route('/')
 def index():
+    slides = parse_slides()
+    return render_template('index.html', slides=slides)
     slides = parse_slides()
     return render_template('index.html', slides=slides)
 
