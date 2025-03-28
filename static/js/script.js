@@ -27,7 +27,9 @@ function initBarometers() {
         document.querySelectorAll('.slide').forEach((slide, index) => {
             const checkboxes = slide.querySelectorAll('.statement-checkbox');
             const checked = slide.querySelectorAll('.statement-checkbox:checked').length;
-            const percentage = Math.round((checked / checkboxes.length) * 100);
+            const percentage = checkboxes.length > 0 
+                ? Math.round((checked / checkboxes.length) * 100)
+                : 0;
             
             const fill = document.getElementById(`section-barometer-${index+1}`);
             const value = document.getElementById(`section-value-${index+1}`);
@@ -39,9 +41,12 @@ function initBarometers() {
         });
         
         // Update overall barometer
+        const allCheckboxes = document.querySelectorAll('.statement-checkbox');
         const totalChecked = document.querySelectorAll('.statement-checkbox:checked').length;
-        const totalCheckboxes = allCheckboxes.length;
-        const overallPercentage = Math.round((totalChecked / totalCheckboxes.length) * 100);
+        const totalCount = allCheckboxes.length;
+        const overallPercentage = totalCount > 0 
+            ? Math.round((totalChecked / totalCount) * 100)
+            : 0;
         
         const overallFill = document.getElementById('overall-barometer-fill');
         const overallValue = document.getElementById('overall-value');
