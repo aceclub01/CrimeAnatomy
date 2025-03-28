@@ -1,6 +1,9 @@
+import markupsafe
+markupsafe.soft_unicode = markupsafe.soft_str  # Compatibility fix
 import os
 from flask import Flask, render_template
-from flask import Markup  # Add to top of file
+
+
 
 app = Flask(__name__)
 
