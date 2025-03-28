@@ -1,16 +1,7 @@
-import os
 from flask import Flask, render_template
+import os
 
 app = Flask(__name__)
-
-def load_introduction(scam_type):
-    """Load introduction from external file"""
-    filename = f"slides_{scam_type}.txt"
-    try:
-        with open(filename, 'r', encoding='utf-8') as file:
-            return file.read().strip()
-    except FileNotFoundError:
-        return f"Introduction to {scam_type.replace('_', ' ')} not available."
 
 def parse_slides():
     slides = []
@@ -28,12 +19,10 @@ def parse_slides():
                     continue
                 
                 if line.lower().endswith('_scams'):
-                    scam_type = line.replace('_scams', '').lower()
                     if current_slide:
                         slides.append(current_slide)
                     current_slide = {
                         'title': line.replace('_scams', ' Scams').title(),
-                        'introduction': load_introduction(scam_type),
                         'content': [],
                         'images': []
                     }
@@ -51,7 +40,6 @@ def parse_slides():
         print(f"Error: {str(e)}")
         slides = [{
             'title': 'Debug Slide',
-            'introduction': 'Sample introduction',
             'content': ['Sample content'],
             'images': ['demo.jpg']
         }]

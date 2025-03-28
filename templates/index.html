@@ -26,6 +26,15 @@
             <div class="slide">
                 <h2 class="slide-title">{{ slide.title }}</h2>
                 
+                <!-- Introduction Segment -->
+                <div class="segment-introduction">
+                    <h3>Introduction</h3>
+                    <div class="intro-content">
+                        {{ slide.introduction }}
+                    </div>
+                    <button class="read-more-btn">Read More</button>
+                </div>
+
                 <!-- Content Section -->
                 <div class="content-section">
                     <button class="collapse-btn" data-target="content-{{ loop.index }}">Show/Hide Content</button>

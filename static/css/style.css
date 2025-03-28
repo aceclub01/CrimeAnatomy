@@ -51,6 +51,68 @@ body {
 .risk-medium { color: #FFC107; }
 .risk-high { color: #F44336; }
 
+/* Introduction Segment */
+.segment-introduction {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border-left: 4px solid #4285f4;
+}
+
+.segment-introduction h3 {
+    margin-top: 0;
+    color: #4285f4;
+}
+
+.intro-content {
+    max-height: 100px;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    position: relative;
+}
+
+.intro-content.expanded {
+    max-height: 1000px;
+}
+
+.intro-content::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 30px;
+    background: linear-gradient(to bottom, rgba(248,249,250,0), rgba(248,249,250,1));
+    transition: opacity 0.3s;
+}
+
+.intro-content.expanded::after {
+    opacity: 0;
+}
+
+.read-more-btn {
+    background: none;
+    border: none;
+    color: #4285f4;
+    padding: 5px 0;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.read-more-btn::after {
+    content: '▼';
+    font-size: 0.7rem;
+    margin-left: 5px;
+    transition: transform 0.3s;
+}
+
+.read-more-btn.expanded::after {
+    transform: rotate(180deg);
+}
+
 /* Checkbox Styles */
 .content-item {
     display: flex;
@@ -96,6 +158,20 @@ body {
     transition: transform 0.3s;
 }
 
+/* Collapse Buttons */
+.collapse-btn {
+    background: #4285f4;
+    color: white;
+    border: none;
+    padding: 12px 15px;
+    width: 100%;
+    border-radius: 8px;
+    font-size: 1rem;
+    margin: 5px 0 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
 /* Mobile Optimizations */
 @media (max-width: 600px) {
     .container {
@@ -113,19 +189,10 @@ body {
     .barometer-track {
         height: 16px;
     }
-}
-
-/* Collapse Buttons */
-.collapse-btn {
-    background: #4285f4;
-    color: white;
-    border: none;
-    padding: 12px 15px;
-    width: 100%;
-    border-radius: 8px;
-    font-size: 1rem;
-    margin: 5px 0 10px;
-    cursor: pointer;
+    
+    .intro-content {
+        max-height: 80px;
+    }
 }
 
 /* Touch Enhancements */
@@ -135,4 +202,26 @@ body {
 
 .image-card:active img {
     transform: scale(0.98);
+}
+
+/* Overall Barometer */
+.overall-barometer {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #eee;
+}
+
+.overall-barometer h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+/* Section Barometer */
+.section-barometer {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px dashed #ddd;
 }

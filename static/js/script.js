@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initBarometers();
     initCollapseButtons();
     initImageZoom();
+    initReadMoreButtons();
     
     // Touch device detection
     const isTouchDevice = 'ontouchstart' in window;
@@ -41,9 +42,8 @@ function initBarometers() {
         });
         
         // Update overall barometer
-        const allCheckboxes = document.querySelectorAll('.statement-checkbox');
         const totalChecked = document.querySelectorAll('.statement-checkbox:checked').length;
-        const totalCount = allCheckboxes.length;
+        const totalCount = document.querySelectorAll('.statement-checkbox').length;
         const overallPercentage = totalCount > 0 
             ? Math.round((totalChecked / totalCount) * 100)
             : 0;
@@ -100,6 +100,19 @@ function initImageZoom() {
                 this.classList.toggle('zoomed');
                 document.body.style.overflow = this.classList.contains('zoomed') ? 'hidden' : '';
             }
+        });
+    });
+}
+
+function initReadMoreButtons() {
+    document.querySelectorAll('.read-more-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const introContent = this.previousElementSibling;
+            introContent.classList.toggle('expanded');
+            this.classList.toggle('expanded');
+            this.textContent = introContent.classList.contains('expanded') 
+                ? 'Read Less' 
+                : 'Read More';
         });
     });
 }
