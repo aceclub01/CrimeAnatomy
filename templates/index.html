@@ -34,7 +34,13 @@
                         <div class="content-item">
                             <input type="checkbox" class="statement-checkbox" id="cb-{{ loop.index }}">
                             <label for="cb-{{ loop.index }}" class="content-label">
-                                {{ item }}
+                                {% if item.startswith('🚩') %}
+                                <span class="red-flag">{{ item }}</span>
+                                {% elif item.startswith('"') and item.endswith('"') %}
+                                <span class="question">{{ item }}</span>
+                                {% else %}
+                                <span class="regular-text">{{ item }}</span>
+                                {% endif %}
                             </label>
                         </div>
                         {% endfor %}
