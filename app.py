@@ -10,19 +10,22 @@ app = Flask(__name__)
 from flask import Markup  # Add to top of file
 
 def load_introduction(scam_type):
-    """Load and properly format introduction content"""
+    """Load and properly format introduction content with enhanced highlighting"""
     filename = f"slides_{scam_type}.txt"
     try:
         with open(filename, 'r', encoding='utf-8') as file:
             content = file.read().strip()
             
-            # First convert to proper paragraphs
             paragraphs = [p.strip() for p in content.split('\n\n') if p.strip()]
-            
-            # Then apply highlighting to each paragraph
             highlighted_paras = []
-            keywords = ['scam', 'fraud', 'warning', 'danger', 'risk', 'emergency', 
-                       'financial', 'exploit', 'vulnerability']
+            
+            # Enhanced keyword lists for different categories
+            danger_keywords = ['scam', 'fraud', 'exploit', 'vulnerability', 'danger', 'risk']
+            financial_keywords = ['money', 'financial', 'emergency', 'funds', 'payment']
+            psychological_keywords = ['loneliness', 'isolation', 'desire', 'connection', 
+                                    'cognitive dissonance', 'idealism', 'emotional']
+            tactic_keywords = ['fake profiles', 'stolen photos', 'love bombing', 
+                             'constant communication', 'fabricate', 'disappear']
             
             for para in paragraphs:
                 # Process bullet points and lists
@@ -30,66 +33,36 @@ def load_introduction(scam_type):
                     lines = para.split('\n')
                     processed_lines = []
                     for line in lines:
-                        for kw in keywords:
-                            if kw in line.lower():
-                                line = line.replace(kw, f'<span class="highlight">{kw}</span>')
+                        # Highlight different categories with different colors
+                        line = highlight_keywords(line, danger_keywords, 'danger-highlight')
+                        line = highlight_keywords(line, financial_keywords, 'financial-highlight')
+                        line = highlight_keywords(line, psychological_keywords, 'psych-highlight')
+                        line = highlight_keywords(line, tactic_keywords, 'tactic-highlight')
+                        
                         processed_lines.append(f"<li>{line[2:] if line[:2] in ('1.', '2.', '3.', '- ', '✓ ', '• ') else line}</li>")
                     highlighted_paras.append(f"<ul>{''.join(processed_lines)}</ul>")
                 else:
                     # Process regular paragraphs
-                    for kw in keywords:
-                        if kw in para.lower():
-                            para = para.replace(kw, f'<span class="highlight">{kw}</span>')
+                    para = highlight_keywords(para, danger_keywords, 'danger-highlight')
+                    para = highlight_keywords(para, financial_keywords, 'financial-highlight')
+                    para = highlight_keywords(para, psychological_keywords, 'psych-highlight')
+                    para = highlight_keywords(para, tactic_keywords, 'tactic-highlight')
                     highlighted_paras.append(f"<p>{para}</p>")
             
             return Markup('\n'.join(highlighted_paras))
             
     except Exception as e:
         return Markup(f"<p class='error'>Introduction loading error: {str(e)}</p>")
-    """Load and format introduction with paragraphs and highlights"""
-    filename = f"slides_{scam_type}.txt"
-    try:
-        with open(filename, 'r', encoding='utf-8') as file:
-            content = file.read().strip()
-            
-            # Convert newlines to HTML paragraphs and highlight keywords
-            paragraphs = []
-            for para in content.split('\n\n'):  # Double newline = new paragraph
-                # Highlight scam-related keywords
-                highlighted = para
-                keywords = ['scam', 'fraud', 'warning', 'danger', 'risk']
-                for word in keywords:
-                    highlighted = highlighted.replace(
-                        word, 
-                        f'<span class="highlight">{word}</span>'
-                    )
-                paragraphs.append(f"<p>{highlighted}</p>")
-            
-            return '\n'.join(paragraphs)
-            
-    except Exception as e:
-        return f"<p>Introduction loading error: {str(e)}</p>"
-    """
-    Load introduction content from external file
-    Args:
-        scam_type (str): The scam type (e.g., 'loveScam', 'MoneyScam')
-    Returns:
-        str: The introduction content or error message
-    """
-    filename = f"slides_{scam_type}.txt"
-    try:
-        if os.path.exists(filename):
-            with open(filename, 'r', encoding='utf-8') as file:
-                content = file.read().strip()
-                if not content:
-                    return f"No content found in {filename}"
-                return content
-        else:
-            return f"Introduction file not found: {filename}"
-    except Exception as e:
-        print(f"Error loading {filename}: {str(e)}")
-        return f"Could not load introduction: {str(e)}"
 
+def highlight_keywords(text, keywords, css_class):
+    """Helper function to highlight keywords with specified CSS class"""
+    for kw in keywords:
+        if kw.lower() in text.lower():
+            # Case-insensitive replacement while preserving original case
+            start_idx = text.lower().find(kw.lower())
+            original_word = text[start_idx:start_idx+len(kw)]
+            text = text.replace(original_word, f'<span class="{css_class}">{original_word}</span>')
+    return text
 def parse_slides():
     """
     Parse the main slides file and load associated introductions

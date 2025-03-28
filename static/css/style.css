@@ -267,3 +267,30 @@ body {
     color: #F44336;
     font-weight: bold;
 }
+.danger-highlight {
+    background-color: #ffcccc;
+    font-weight: bold;
+    padding: 2px 4px;
+    border-radius: 3px;
+}
+
+.financial-highlight {
+    background-color: #ffeb99;
+    font-weight: bold;
+    padding: 2px 4px;
+    border-radius: 3px;
+}
+
+.psych-highlight {
+    background-color: #ccffcc;
+    font-weight: bold;
+    padding: 2px 4px;
+    border-radius: 3px;
+}
+
+.tactic-highlight {
+    background-color: #ccccff;
+    font-weight: bold;
+    padding: 2px 4px;
+    border-radius: 3px;
+}
