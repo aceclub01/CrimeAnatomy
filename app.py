@@ -17,39 +17,24 @@ def get_file_path(filename):
     return None
 
 def parse_slides():
-    """Robust slide parser with detailed error handling"""
-    filepath = get_file_path('slides.txt')
-    if not filepath:
-        error_msg = "slides.txt not found in:\n- " + "\n- ".join([
-            os.path.join(app.root_path, 'slides.txt'),
-            os.path.join(os.getcwd(), 'slides.txt'),
-            'slides.txt'
-        ])
-        print(error_msg)
-        return [{
-            'title': 'File Not Found',
-            'content': [error_msg],
-            'image_group': 'error'
-        }]
-
+    slides = []
+    current_slide = None
+    
     try:
-        with open(filepath, 'r', encoding='utf-8') as file:
-            content = file.read()
-            print(f"File content (first 100 chars): {content[:100]}...")  # Debug output
-            
-            slides = []
-            current_slide = None
-            
-            for line in content.splitlines():
+        with open('slides.txt', 'r', encoding='utf-8') as file:
+            for line in file:
                 line = line.strip()
+                
+                # Skip empty lines unless they separate slides
                 if not line:
-                    if current_slide:
+                    if current_slide and current_slide['content']:  # Only add if has content
                         slides.append(current_slide)
                         current_slide = None
                     continue
                 
+                # Detect new section header
                 if line.lower().endswith('_scams'):
-                    if current_slide:
+                    if current_slide:  # Save previous slide if exists
                         slides.append(current_slide)
                     current_slide = {
                         'title': line.replace('_scams', ' Scams').title(),
@@ -57,23 +42,33 @@ def parse_slides():
                         'image_group': line.lower()
                     }
                 elif current_slide:
+                    # Add ALL content lines (not just special markers)
                     current_slide['content'].append(line)
+        
+        # Add the last slide if it exists
+        if current_slide and current_slide['content']:
+            slides.append(current_slide)
             
-            if current_slide:
-                slides.append(current_slide)
-            
-            print(f"Successfully parsed {len(slides)} slides")  # Debug
-            return slides
-
     except Exception as e:
-        error_msg = f"Error reading slides.txt: {str(e)}"
-        print(error_msg)
-        return [{
-            'title': 'Parse Error',
-            'content': [error_msg],
-            'image_group': 'error'
+        print(f"Error loading slides: {str(e)}")
+        slides = [{
+            'title': 'Debug: Sample Slide',
+            'content': [
+                'This is sample content line 1',
+                '🚩 This is a sample red flag',
+                '"This is a sample question?"',
+                'Regular content line without markers'
+            ],
+            'image_group': 'demo'
         }]
-
+    
+    print("DEBUG - Parsed Slides:")
+    for i, slide in enumerate(slides):
+        print(f"Slide {i+1}: {slide['title']}")
+        for item in slide['content']:
+            print(f" - {item}")
+    
+    return slides
 @app.route('/')
 def index():
     slides = parse_slides()
