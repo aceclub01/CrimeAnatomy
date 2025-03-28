@@ -11,8 +11,6 @@
         <!-- Overall Barometer at the top right -->
         <div class="barometer">
             <div class="barometer-labels">
-                <!-- <span class="left-label">Under Review</span>
-                <span class="center-label">Warning</span> -->
                 <span class="right-label">Danger: Call 1799</span>
             </div>
             <div class="barometer-meter">
@@ -24,35 +22,31 @@
         <!-- Slide container -->
         <div class="slide-container">
             {% for slide in slides %}
-<div class="slide">
-    <h2>{{ slide.title }}</h2>
-    
-    <div class="content">
-        {% for item in slide.content %}
-        <div class="content-line">
-            {% if item.startswith('🚩') %}
-            <div class="red-flag">{{ item }}</div>
-            {% elif item.startswith('"') and item.endswith('"') %}
-            <div class="question">{{ item }}</div>
-            {% else %}
-            <p>{{ item }}</p>
-            {% endif %}
-        </div>
-        {% endfor %}
-    </div>
-    
-    <div class="image-gallery">
-        {% for img in slide.images %}
-        <div class="image-card">
-            <img src="{{ url_for('static', filename='images/' + img) }}" 
-                 alt="{{ slide.title }} illustration"
-                 onerror="this.parentElement.remove()">
-        </div>
-        {% endfor %}
-    </div>
-</div>
-{% endfor %}
+            <div class="slide">
+                <h2>{{ slide.title }}</h2>
+                
+                <div class="content">
+                    {% for item in slide.content %}
+                    <div class="content-line">
+                        {% if item.startswith('🚩') %}
+                        <div class="red-flag">{{ item }}</div>
+                        {% elif item.startswith('"') and item.endswith('"') %}
+                        <div class="question">{{ item }}</div>
+                        {% else %}
+                        <p>{{ item }}</p>
+                        {% endif %}
                     </div>
+                    {% endfor %}
+                </div>
+                
+                <div class="image-gallery">
+                    {% for img in slide.images %}
+                    <div class="image-card">
+                        <img src="{{ url_for('static', filename='images/' + img) }}" 
+                             alt="{{ slide.title }} illustration"
+                             onerror="this.parentElement.remove()">
+                    </div>
+                    {% endfor %}
                 </div>
             </div>
             {% endfor %}

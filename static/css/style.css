@@ -231,3 +231,21 @@ button.collapse-btn:hover {
     font-size: 0.9em;
     text-align: center;
 }
+/* Add to your style.css */
+.content-line {
+    margin-bottom: 12px;
+}
+
+.red-flag {
+    color: #d9534f;
+    font-weight: bold;
+}
+
+.question {
+    font-style: italic;
+    color: #337ab7;
+}
+
+.image-gallery {
+    margin-top: 20px;
+}
