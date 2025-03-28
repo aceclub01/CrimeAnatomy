@@ -4,6 +4,29 @@ from flask import Flask, render_template
 app = Flask(__name__)
 
 def load_introduction(scam_type):
+    """Load and format introduction with paragraphs and highlights"""
+    filename = f"slides_{scam_type}.txt"
+    try:
+        with open(filename, 'r', encoding='utf-8') as file:
+            content = file.read().strip()
+            
+            # Convert newlines to HTML paragraphs and highlight keywords
+            paragraphs = []
+            for para in content.split('\n\n'):  # Double newline = new paragraph
+                # Highlight scam-related keywords
+                highlighted = para
+                keywords = ['scam', 'fraud', 'warning', 'danger', 'risk']
+                for word in keywords:
+                    highlighted = highlighted.replace(
+                        word, 
+                        f'<span class="highlight">{word}</span>'
+                    )
+                paragraphs.append(f"<p>{highlighted}</p>")
+            
+            return '\n'.join(paragraphs)
+            
+    except Exception as e:
+        return f"<p>Introduction loading error: {str(e)}</p>"
     """
     Load introduction content from external file
     Args:

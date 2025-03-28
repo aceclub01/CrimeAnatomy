@@ -225,3 +225,15 @@ body {
     padding-top: 15px;
     border-top: 1px dashed #ddd;
 }
+/* Add to style.css */
+.highlight {
+    background-color: #FFF9C4;
+    padding: 0 3px;
+    border-radius: 3px;
+    font-weight: bold;
+}
+
+.intro-content p {
+    margin-bottom: 1em;
+    line-height: 1.6;
+}
