@@ -1,11 +1,11 @@
 love_scams
-Psychological Vulnerabilities
 Loneliness & Social Isolation
 "Do I feel emotionally dependent?"
 🚩 Over-sharing personal struggles
+[IMAGE: loneliness.jpg]
 
 money_scams
-Common Tactics
-Fake Investment Portals
-"Double your money in 24 hours!"
-🚩 Unrealistic returns
+Greed/FOMO
+"Am I chasing quick riches?"
+🚩 Unrealistic ROI promises
+[IMAGE: fomo_chart.jpg]

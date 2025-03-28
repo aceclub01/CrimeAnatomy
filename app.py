@@ -24,6 +24,63 @@ def parse_slides():
     
     try:
         with open('slides.txt', 'r', encoding='utf-8') as file:
+            lines = file.readlines()
+            print(f"DEBUG: Read {len(lines)} lines from slides.txt")  # Debug output
+            
+            for line in lines:
+                line = line.strip()
+                print(f"DEBUG: Processing line: '{line}'")  # Show each line being processed
+                
+                # Skip empty lines unless they separate slides
+                if not line:
+                    if current_slide and current_slide['content']:
+                        slides.append(current_slide)
+                        current_slide = None
+                    continue
+                
+                # Detect new section
+                if line.lower().endswith('_scams'):
+                    if current_slide:
+                        slides.append(current_slide)
+                    current_slide = {
+                        'title': line.replace('_scams', ' Scams').title(),
+                        'content': [],
+                        'images': []
+                    }
+                # Detect image markers
+                elif line.startswith('[IMAGE:'):
+                    if current_slide:
+                        img = line[7:-1].strip()  # Extract 'loneliness.jpg' from [IMAGE: loneliness.jpg]
+                        current_slide['images'].append(img)
+                # Add all other content
+                elif current_slide:
+                    current_slide['content'].append(line)
+        
+        # Add the last slide
+        if current_slide and current_slide['content']:
+            slides.append(current_slide)
+            
+    except Exception as e:
+        print(f"ERROR: {str(e)}")
+        slides = [{
+            'title': 'Debug Slide',
+            'content': ['Sample content line 1', 'Sample content line 2'],
+            'images': ['demo.jpg']
+        }]
+    
+    # Debug output
+    print(f"DEBUG: Parsed {len(slides)} slides:")
+    for i, slide in enumerate(slides):
+        print(f"Slide {i+1}: {slide['title']}")
+        print(f"Content: {slide['content']}")
+        print(f"Images: {slide['images']}\n")
+    
+    return slides
+    slides = []
+    current_slide = None
+    
+    try:
+        with open('slides.txt', 'r', encoding='utf-8') as file:
             for line in file:
                 line = line.strip()
                 

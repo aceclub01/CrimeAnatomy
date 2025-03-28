@@ -24,30 +24,34 @@
         <!-- Slide container -->
         <div class="slide-container">
             {% for slide in slides %}
-            <div class="slide">
-                <h2>{{ slide.title }}</h2>
-                
-                <div class="body-section">
-                    <ul class="content-list">
-                        {% for item in slide.content %}
-                        <li>
-                            <input type="checkbox" class="statement-checkbox">
-                            {{ item }}
-                        </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-        
-                <div class="image-section">
-                    <button class="collapse-btn">Show/Hide {{ slide.title.split(':')[0] }} Examples</button>
-                    <div class="image-grid">
-                        {% for img in ['tactic1', 'tactic2', 'tactic3'] %}
-                        <div class="image-card">
-                            <img src="{{ url_for('static', filename='images/' + slide.image_group + '/' + img + '.jpg') }}"
-                                 onerror="this.style.display='none'">
-                            <p class="image-caption">{{ slide.title.split(':')[0] }} Tactic {{ loop.index }}</p>
-                        </div>
-                        {% endfor %}
+<div class="slide">
+    <h2>{{ slide.title }}</h2>
+    
+    <div class="content">
+        {% for item in slide.content %}
+        <div class="content-line">
+            {% if item.startswith('🚩') %}
+            <div class="red-flag">{{ item }}</div>
+            {% elif item.startswith('"') and item.endswith('"') %}
+            <div class="question">{{ item }}</div>
+            {% else %}
+            <p>{{ item }}</p>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    
+    <div class="image-gallery">
+        {% for img in slide.images %}
+        <div class="image-card">
+            <img src="{{ url_for('static', filename='images/' + img) }}" 
+                 alt="{{ slide.title }} illustration"
+                 onerror="this.parentElement.remove()">
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endfor %}
                     </div>
                 </div>
             </div>
