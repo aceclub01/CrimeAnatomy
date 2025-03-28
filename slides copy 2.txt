@@ -1,39 +1,11 @@
-=== INTRODUCTION ===
-Cyber Crime Awareness and Prevention
-A. Impulsivity: Acting without research (e.g., sending money ASAP)
-B. Need for Validation: Scammers flatter victims to lower guard
-C. Avoidance of Critical Thinking: Dismissing proof of fraud
-
-=== LOVE SCAMS ===
-# Psychological Vulnerabilities
-[IMAGE: loneliness.jpg]
+love_scams
 Loneliness & Social Isolation
-"Do I feel emotionally dependent on this online relationship?"
-🚩 Over-sharing personal struggles with strangers
+"Do I feel emotionally dependent?"
+🚩 Over-sharing personal struggles
 [IMAGE: loneliness.jpg]
 
-# Anatomy of Love Scams
-1. Initial Contact - Fake profiles (stolen photos)
-2. Rapid Bonding - "I've never felt this connection before"
-
-# Red Flags
-🚫 Avoiding video calls/meetings
-🚫 Sudden financial emergencies
-
-=== MONEY SCAMS ===
-# Psychological Vulnerabilities
+money_scams
+Greed/FOMO
+"Am I chasing quick riches?"
+🚩 Unrealistic ROI promises
 [IMAGE: fomo_chart.jpg]
-Greed/FOMO - "Bitcoin will crash tomorrow - invest NOW!"
-
-# Common Tactics
-🐷 Pig Butchering Scam - Trust building then theft
-[IMAGE: money_scams/tactics/fake_platform.jpg]
-💻 Professional-looking fake investment portals
-
-# Prevention
-✓ Always check financial regulator websites
-
-=== COMPARISON ===
-LOVE SCAMS: Heart icon → Emotional manipulation
-MONEY SCAMS: Dollar icon → Financial temptation
-

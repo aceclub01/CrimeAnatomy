@@ -1,10 +1,10 @@
-=== INTRODUCTION ===
+INTRODUCTION
 Cyber Crime Awareness and Prevention
 A. Impulsivity: Acting without research (e.g., sending money ASAP)
 B. Need for Validation: Scammers flatter victims to lower guard
 C. Avoidance of Critical Thinking: Dismissing proof of fraud
 
-=== LOVE SCAMS ===
+love_scams
 # Psychological Vulnerabilities
 [IMAGE: loneliness.jpg]
 Loneliness & Social Isolation
@@ -20,7 +20,8 @@ Loneliness & Social Isolation
 🚫 Avoiding video calls/meetings
 🚫 Sudden financial emergencies
 
-=== MONEY SCAMS ===
+
+money_scams
 # Psychological Vulnerabilities
 [IMAGE: fomo_chart.jpg]
 Greed/FOMO - "Bitcoin will crash tomorrow - invest NOW!"
